@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.UserDao">
+	<!-- 登录验证 -->
+	<select id="findByCondition" parameterType="com.model.UserModel"
+		resultType="com.model.UserModel">
+		select * from t_user where 1=1
+		<if test="name!=null"> and name=#{name} </if>
+		<if test="password!=null"> and password=#{password} </if>
+	</select>
+
+	<select id="findById" parameterType="int"
+		resultType="com.model.UserModel">
+		select *
+		from t_user where id=#{id}
+	</select>
+
+	<select id="findAll" resultType="com.model.UserModel">
+		select * from t_user
+	</select>
+
+	<!-- 新增用户 -->
+	<insert id="add" parameterType="com.model.UserModel">
+		insert into
+		t_user(name,password,phone,role,registrationTime)
+		values(#{name},#{password},#{phone},#{role},#{registrationTime})
+	</insert>
+
+	<!-- 用户信息修改 -->
+	<update id="update" parameterType="com.model.UserModel">
+		update t_user set
+		password=#{password},phone=#{phone},sex=#{sex},address=#{address},email=#{email}
+		where id=#{id}
+	</update>
+
+	<!-- 用户注销 -->
+	<delete id="del" parameterType="com.model.UserModel">
+		delete from t_user where id=#{id}
+	</delete>
+</mapper>

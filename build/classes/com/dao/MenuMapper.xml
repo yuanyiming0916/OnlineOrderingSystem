@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.MenuDao">
+	<select id="findById" parameterType="int"
+		resultType="com.model.MenuModel">
+		select *
+		from t_menu where id=#{id}
+	</select>
+
+	<select id="findAll" resultType="com.model.MenuModel">
+		select * from t_menu
+		where
+		status=1 order by type and id
+	</select>
+
+	<select id="findHotDishes" resultType="com.model.MenuModel">
+		select * from t_menu
+		where
+		status=1 and type=1 order by type and id
+	</select>
+
+	<select id="findColdDishes" resultType="com.model.MenuModel">
+		select * from t_menu
+		where status=1 and type=2 order by type and id
+	</select>
+
+	<select id="findDrink" resultType="com.model.MenuModel">
+		select * from t_menu
+		where
+		status=1 and type=3 order by type and id
+	</select>
+
+	<select id="findFood" resultType="com.model.MenuModel">
+		select * from t_menu
+		where
+		status=1 and type=4 order by type and id
+	</select>
+
+	<select id="findSoup" resultType="com.model.MenuModel">
+		select * from t_menu
+		where
+		status=1 and type=5 order by type and id
+	</select>
+
+	<select id="findFruit" resultType="com.model.MenuModel">
+		select * from t_menu
+		where
+		status=1 and type=6 order by type and id
+	</select>
+
+	<!-- <select id="findByDishName" resultType="com.model.MenuModel"> select 
+		* from t_menu where dishName=#{dishName} and status=1 </select> -->
+
+	<!-- 新增商品 -->
+	<insert id="add" parameterType="com.model.MenuModel">
+		insert into
+		t_menu(dishName,price,details,type,imagePath,amount,shelfTime,status)
+		values(#{dishName},#{price},#{details},#{type},#{imagePath},#{amount},#{shelfTime},#{status})
+	</insert>
+
+	<!-- 修改商品信息 -->
+	<update id="update" parameterType="com.model.MenuModel">
+		update t_menu set
+		price=#{price},details=#{details} where id=#{id}
+	</update>
+
+	<!-- 商品下架 -->
+	<update id="update_1" parameterType="com.model.MenuModel">
+		update t_menu set
+		dismountTime=#{dismountTime},status=#{status} where id=#{id}
+	</update>
+</mapper>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.CartDao">
+	<!-- 检索购物车 -->
+	<select id="findByIdPlus" parameterType="int"
+		resultType="com.VO.CartVO">
+		select
+		c.*,m.price,m.imagePath from (select * from t_cart
+		where
+		userId=#{userId} and amount>0 and status=0) c,t_menu m where
+		c.dishId=m.id and m.status=1 order by m.type
+	</select>
+
+	<!-- 检索购物车 -->
+	<select id="findByUserIdAndDishId"
+		parameterType="com.model.CartModel" resultType="com.model.CartModel">
+		select * from t_cart
+		where userId=#{userId} and
+		dishId=#{dishId} and
+		status=0
+	</select>
+
+	<!-- 购物车增加商品 -->
+	<insert id="add" parameterType="com.model.CartModel">
+		insert into
+		t_cart(userId,dishId,dishName,amount,time,status)
+		values(#{userId},#{dishId},#{dishName},#{amount},#{time},#{status})
+	</insert>
+
+	<!-- 购物车页面点击增加/减少 -->
+	<update id="update" parameterType="com.model.CartModel">
+		update t_cart set
+		amount=#{amount},time=#{time},status=#{status} where userId=#{userId}
+		and dishId=#{dishId} and status=0
+	</update>
+
+	<!-- 删除购物车数据 -->
+	<delete id="del" parameterType="int">
+		delete from t_cart where id=#{id}
+	</delete>
+</mapper>

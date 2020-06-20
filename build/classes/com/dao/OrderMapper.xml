@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.OrderDao">
+	<!-- 检索用户订单详细信息 -->
+	<select id="findAll" resultType="com.model.OrderModel">
+		SELECT * from t_order WHERE
+		userId=#{userId} and accept=0 and status=0
+	</select>
+
+	<!-- 检索全部下单用户 -->
+	<select id="findAllOrder" resultType="com.model.UserModel">
+		SELECT u.id,u.name FROM
+		t_business b,t_user u WHERE b.userId=u.id and b.status=0
+	</select>
+
+	<!-- 检索用户订单 -->
+	<select id="findAllOrder_1" parameterType="int"
+		resultType="com.model.UserModel">
+		SELECT u.id,u.name FROM
+		t_business b,t_user u WHERE
+		u.id=#{id}
+		and b.userId=u.id and b.status=0
+	</select>
+
+	<!-- 检索用户订单 -->
+	<select id="findByIdPlus" parameterType="int"
+		resultType="com.VO.OrderVO">
+		SELECT o.*,m.imagePath,b.*,u.name FROM t_order o,t_menu
+		m,t_business b,t_user u WHERE o.userId=#{id} and o.userId=u.id and
+		o.dishId=m.id and b.isPay=0 and b.status=0 and o.orderTime=b.orderTime
+	</select>
+
+	<!-- 用户下单 -->
+	<insert id="add" parameterType="com.model.OrderModel">
+		INSERT INTO
+		t_order(userId,dishId,dishName,price,amount,remarks,orderTime,accept,acceptTime,status,orderDelTime)
+		VALUES(#{userId},#{dishId},#{dishName},#{price},#{amount},#{remarks},#{orderTime},#{accept},#{acceptTime},#{status},#{orderDelTime})
+	</insert>
+
+	<!-- 修改数据:用户退单/商家接单 -->
+	<update id="update" parameterType="com.model.OrderModel">
+		UPDATE t_order SET
+		accept=#{accept},acceptTime=#{acceptTime},
+		status=#{status},orderDelTime=#{orderDelTime} WHERE userId=#{userId}
+		and dishId=#{dishId} and status=0
+	</update>
+</mapper>
