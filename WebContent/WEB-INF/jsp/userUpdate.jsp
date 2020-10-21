@@ -43,15 +43,7 @@
 	};
 	function backClick() {
 		window.location.href = "<%=request.getContextPath()%>/SetController/set";
-	};
-	/* function selectMan(){
- 		$("#woman").removeAttr("checked");
-		$("#man").attr("checked","checked");
-	};
-	function selectWoman(){
- 		$("#man").removeAttr("checked");
-		$("#woman").attr("checked","checked");
-	}; */	
+	};	
 	function saveClick(id){
 		var password = $("#password").val().trim();
 		var phone = $("#phone").val().trim();

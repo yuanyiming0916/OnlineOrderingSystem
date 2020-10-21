@@ -4,44 +4,95 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dao.BusinessDao">
 	<!-- 查询用户历史记录 -->
-	<select id="findByIdPlus" parameterType="int"
-		resultType="com.VO.BusinessVO">
+	<select id="findByIdPlus" parameterType="int" resultType="com.VO.BusinessVO">
 		SELECT
-		o.*,m.imagePath,b.* FROM t_order o,t_menu
-		m,t_business b WHERE
-		o.userId=#{id} and o.dishId=m.id and b.status=1
-		and b.userId=o.userId and b.orderTime=o.orderTime
+			T1.*,
+			M1.* ,
+			M2.imagePath
+		FROM
+			t_business T1
+		INNER JOIN t_order M1
+		ON  M1.userId = T1.userId 
+		AND M1.orderTime = T1.orderTime 				
+		INNER JOIN t_menu M2
+		ON  M2.id = M1.dishId
+		WHERE
+			M2.STATUS = 1 
+		AND	T1.userId = #{id}	
 		ORDER BY
-		b.businessTime DESC
+			T1.businessTime DESC
 	</select>
 
 	<!-- 查询全部用户历史记录 -->
 	<select id="findAll_1" resultType="com.VO.BusinessVO">
-		SELECT o.*,m.imagePath,b.*,u.*
-		FROM t_order o,t_menu m,t_business b,t_user u WHERE o.dishId=m.id and
-		b.status=1 and b.userId=o.userId and u.id=b.userId and
-		b.orderTime=o.orderTime
+		SELECT
+			T1.*,
+			M1.*,
+			M2.*,
+			M3.imagePath 
+		FROM
+			t_business T1
+		INNER JOIN t_order M1 
+		ON  T1.userId = M1.userId 
+		AND T1.orderTime = M1.orderTime
+		INNER JOIN t_user M2 
+		ON  M2.id = T1.userId
+		INNER JOIN t_menu M3 
+		ON  M1.dishId = M3.id 
+		WHERE
+			T1.STATUS = 1
 	</select>
 
 	<!-- 订单页面点击查看订单 -->
-	<select id="findById" parameterType="int"
-		resultType="com.model.BusinessModel">
-		SELECT b.* FROM t_business b WHERE b.userId=#{id} and
-		b.status=0
+	<select id="findById" parameterType="int" resultType="com.model.BusinessModel">
+		SELECT
+			T1.* 
+		FROM
+			t_business T1 
+		WHERE
+				T1.userId = #{id} 
+			AND T1.STATUS = 0
 	</select>
 
 	<!-- 用户点击下单插入数据 -->
 	<insert id="add" parameterType="com.model.BusinessModel">
-		INSERT INTO
-		t_business(userId,personCount,totalPrice,realPrice,isPay,orderTime,scheduledTime,businessTime,status,orderDelTime,orderReceiveTime,orderRefuseTime)
-		VALUES(#{userId},#{personCount},#{totalPrice},#{realPrice},#{isPay},#{orderTime},#{scheduledTime},#{businessTime},#{status},#{orderDelTime},#{orderReceiveTime},#{orderRefuseTime})
+		INSERT INTO t_business ( 
+			userId, 
+			personCount, 
+			totalPrice, 
+			realPrice, 
+			isPay, 
+			orderTime, 
+			scheduledTime, 
+			businessTime, 
+			status, 
+			orderDelTime, 
+			orderReceiveTime, 
+			orderRefuseTime )
+		VALUES(
+			#{userId},
+			#{personCount},
+			#{totalPrice},
+			#{realPrice},
+			#{isPay},
+			#{orderTime},
+			#{scheduledTime},
+			#{businessTime},
+			#{status},
+			#{orderDelTime},
+			#{orderReceiveTime},
+			#{orderRefuseTime})
 	</insert>
 
 	<!-- 修改数据:商家点击接单 -->
 	<update id="update" parameterType="com.model.BusinessModel">
-		UPDATE t_business SET
-		status=#{status},orderReceiveTime=#{orderReceiveTime},orderRefuseTime=#{orderRefuseTime}
-		WHERE userId=#{userId} and isPay=0
+		UPDATE t_business 
+		SET 
+			status = #{status},
+			orderReceiveTime=#{orderReceiveTime},
+			orderRefuseTime=#{orderRefuseTime}
+		WHERE
+				userId = #{userId} 
+			AND isPay = 0
 	</update>
-
 </mapper>

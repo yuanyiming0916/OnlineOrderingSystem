@@ -114,7 +114,7 @@
 								<td style="width: 150px;">${bv.dishName }</td>
 								<td style="width: 100px; text-align: center;">${bv.price }</td>
 								<td style="width: 100px; text-align: center;">${bv.amount }</td>
-								<td style="width: 200px; align: center;"><fmt:formatDate
+								<td style="width: 200px; text-align: center;"><fmt:formatDate
 										value='${bv.orderReceiveTime }' pattern='yyyy-MM-dd HH:mm:ss' /></td>
 							</tr>
 						</c:forEach>

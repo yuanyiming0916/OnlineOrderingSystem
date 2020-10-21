@@ -119,11 +119,7 @@
 		}
 		
 		var dishNameStr=$("input[type='checkbox'][name='dishId']:checked").closest('tr').find('td:eq(6)').map(function(){return this.innerHTML}).get().join();
-		var dishNameArr = dishNameStr.split(',');
-		var dishName = new Array(dishNameArr.length);
-		for(var i=0;i<dishNameArr.length;i++){
-			dishName[i] = dishNameArr[i];
-		}
+		var dishName = dishNameStr.split(',');
 		
 		var priceStr=$("input[type='checkbox'][name='dishId']:checked").closest('tr').find('td:eq(8)').map(function(){return this.innerHTML}).get().join();
 		var priceArr = priceStr.split(',');
@@ -139,15 +135,22 @@
 			amount[i]=parseInt(amountArr[i]);
 		}
 		
-		//交易信息
+		//用餐人数
 		var personCount=$('#personCount option:selected') .val();
+		//money
 		var totalPrice=	$("#totalPrice").val();
-		var now = new Date();
-		var scheduledTime=$("#scheduledTime").val();
+		//系统时间
+		var sysTime = new Date();
+		//系统时间（时间戳:单位（毫秒））
+		var sysTimestamp = Date.parse(sysTime);
+		//用餐时间（时间戳:单位（毫秒））
+		var scheduledTime = Date.parse(sysTime.toLocaleDateString()+" "+ $("#hour").val() +":"+ $("#minute").val());
+		//配送时长（单位:分）
+		var deliveryTime = (scheduledTime - sysTimestamp) /1000 /60;
 		
 		//信息check
 		var status=0;
-		var str=""; 
+		var str="";
 		if(totalPrice<=0){
 			status=status+1;
 			str+=status+".请选择之后再下单\n";
@@ -156,13 +159,9 @@
 			status=status+1;
 			str+=status+".请选择用餐人数之后再下单\n";
 		}
-		if(scheduledTime==null||scheduledTime==""){
+		if(deliveryTime<40){
 			status=status+1;
-			str+=status+".请输入用餐时间\n";
-		}
-		if(Date.parse(scheduledTime)<Date.parse(now)){
-			status=status+1;
-			str+=status+".用餐时间不能位于当前时间之前";
+			str+=status+".配送时长低于40分钟，请修改用餐时间";
 		}
 		if(status>0){
 			alert(str);
@@ -299,19 +298,37 @@
 						<td width="20px;"></td>
 						<td>合计：</td>
 						<td width="120px;"><input type="text" name="totalPrice"
-							id="totalPrice" style="width: 80%;" value="0">元</td>
+							id="totalPrice" style="width: 75%;" value="0">元</td>
 						<td width="20px;"></td>
 						<td>用餐人数：</td>
 						<td><select name="personCount" id="personCount">
-								<c:forEach var="i" begin="0" end="100">
-									<option value="${i }">${i }</option>
+								<c:forEach var="personCount" begin="1" end="50">
+									<option value="${personCount }">${personCount }</option>
 								</c:forEach>
 						</select>人</td>
 						<td width="20px;"></td>
 						<td>用餐时间：</td>
-						<td width="100px;"><input type="datetime-local"
-							name="scheduledTime" id="scheduledTime"></td>
-						<td width="100px;"></td>
+						<td><select name="hour" id="hour">
+								<c:forEach var="hour" begin="0" end="23">
+									<c:if test="${hour < 10}">
+										<option value="0${hour }">0${hour }</option>
+									</c:if>
+									<c:if test="${hour > 9}">
+										<option value="${hour }">${hour }</option>
+									</c:if>
+								</c:forEach>
+						</select> :</td>
+						<td><select name="minute" id="minute">
+								<c:forEach var="minute" begin="0" end="59" step="1">
+									<c:if test="${minute < 10}">
+										<option value="0${minute }">0${minute }</option>
+									</c:if>
+									<c:if test="${minute > 9}">
+										<option value="${minute }">${minute }</option>
+									</c:if>
+								</c:forEach>
+						</select></td>
+						<td width="450px;"></td>
 						<td><input type="button" name="order" id="order" value="下单"
 							onclick="order_onClick(${user.id })"></td>
 						<td width="100px;"></td>

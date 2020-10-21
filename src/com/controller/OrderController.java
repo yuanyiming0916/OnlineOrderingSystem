@@ -1,6 +1,7 @@
 package com.controller;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -130,8 +131,11 @@ public class OrderController {
 		}
 
 		// 交易数据
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy/MM/dd HH:mm");
+        String st = sdf.format(Long.parseLong(String.valueOf(bm.getScheduledTime())));
 		bm.setIsPay(0);
 		bm.setOrderTime(time);
+		bm.setScheduledTime(st);
 		bm.setStatus(0);
 		businessService.add(bm);
 

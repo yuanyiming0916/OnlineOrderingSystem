@@ -129,29 +129,31 @@
 			<div
 				style="width: 21px; height: 676px; background-color: #F0F0F0; float: left;"></div>
 			<div
-				style="width: 1390px; height: 676px; background-color: #F0F0F0; float: left; overflow-y: auto;">
-				<table>
-					<tr>
-						<td>首页</td>
-					</tr>
-					<tr>
-						<td height="10px;"></td>
-					</tr>
-					<tr>
-						<td width="150px"><input type="button" value="热菜"
-							style="width: 100px;" onclick="hotDishesClick()" /></td>
-						<td width="150px"><input type="button" value="凉菜"
-							style="width: 100px;" onclick="coldDishesClick()" /></td>
-						<td width="150px"><input type="button" value="羹汤"
-							style="width: 100px;" onclick="soupClick()" /></td>
-						<td width="150px"><input type="button" value="酒水"
-							style="width: 100px;" onclick="drinkClick()" /></td>
-						<td width="150px"><input type="button" value="水果"
-							style="width: 100px;" onclick="fruitClick()" /></td>
-						<td width="150px"><input type="button" value="主食"
-							style="width: 100px;" onclick="foodClick()" /></td>
-					</tr>
-				</table>
+				style="width: 1390px; height: 676px; background-color: #F0F0F0; float: left;">
+				<div style="width: 1390px; overflow: hidden;">
+					<table>
+						<tr>
+							<td>首页</td>
+						</tr>
+						<tr>
+							<td height="10px;"></td>
+						</tr>
+						<tr>
+							<td width="150px"><input type="button" value="热菜"
+								style="width: 100px;" onclick="hotDishesClick()" /></td>
+							<td width="150px"><input type="button" value="凉菜"
+								style="width: 100px;" onclick="coldDishesClick()" /></td>
+							<td width="150px"><input type="button" value="羹汤"
+								style="width: 100px;" onclick="soupClick()" /></td>
+							<td width="150px"><input type="button" value="酒水"
+								style="width: 100px;" onclick="drinkClick()" /></td>
+							<td width="150px"><input type="button" value="水果"
+								style="width: 100px;" onclick="fruitClick()" /></td>
+							<td width="150px"><input type="button" value="主食"
+								style="width: 100px;" onclick="foodClick()" /></td>
+						</tr>
+					</table>
+				</div>
 				<hr>
 				<div
 					style="width: 1390px; height: 676px; overflow: scroll;; overflow-x: hidden;">
@@ -173,7 +175,7 @@
 								<td width="200px;">${mm.dishName }</td>
 								<td width="100px;">${mm.price }</td>
 								<td width="450px;">${mm.details }</td>
-								<td style="width: 200px; align: center;"><fmt:formatDate
+								<td style="width: 200px; text-align: center;"><fmt:formatDate
 										value='${mm.shelfTime }' pattern='yyyy-MM-dd HH:mm:ss' /></td>
 								<td><input type="button" value="修改" id="update${mm.id }"
 									onclick="menuUpdateClick(${mm.id })" /></td>

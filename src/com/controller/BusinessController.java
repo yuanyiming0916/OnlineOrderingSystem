@@ -52,6 +52,7 @@ public class BusinessController {
 		// 商家获取交易记录
 		if (um.getRole() == 2) {
 			List<BusinessVO> bv = businessService.findAll_1();
+			
 			m.addAttribute("bv", bv);
 		}
 

@@ -100,23 +100,30 @@
 						<td height="15px;"></td>
 					</tr>
 				</table>
-				<div style="overflow: scroll; overflow-x: hidden;">
-					<table border="1">
-						<tr id="hid">
-							<th>用户id</th>
-							<th>用户名</th>
-							<th>查看订单</th>
-						</tr>
-						<c:forEach items="${userModel }" var="userModel">
-							<tr>
-								<td style="width: 100px; text-align: center;">${userModel.id }</td>
-								<td style="width: 200px;">${userModel.name }</td>
-								<td><input type="button" value="查看订单"
-									onclick="lookOrder(${userModel.id })" /></td>
+				<c:if test="${empty userModel}">  
+					<div>
+						<span>您还没有订单，请前往首页选择商品，再前往购物车下单！</span>
+					</div>
+				</c:if> 				
+				<c:if test="${not empty userModel}">  
+					<div style="overflow: scroll; overflow-x: hidden;">
+						<table border="1">
+							<tr id="hid">
+								<th>用户id</th>
+								<th>用户名</th>
+								<th>查看订单</th>
 							</tr>
-						</c:forEach>
-					</table>
-				</div>
+							<c:forEach items="${userModel }" var="userModel">
+								<tr>
+									<td style="width: 100px; text-align: center;">${userModel.id }</td>
+									<td style="width: 200px;">${userModel.name }</td>
+									<td><input type="button" value="查看订单"
+										onclick="lookOrder(${userModel.id })" /></td>
+								</tr>
+							</c:forEach>
+						</table>
+					</div>
+				</c:if> 
 			</div>
 		</div>
 	</div>
